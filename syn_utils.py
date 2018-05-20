@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from fooof.analysis import get_band_peak_group
+
 ###################################################################################################
 ###################################################################################################
 
@@ -42,6 +44,7 @@ def print_settings(opts, probs, param):
     for opt, prob in zip(opts, probs):
         print('\t{} \t {:2.1f}%'.format(opt, prob*100))
 
+
 def gen_bg_def():
     """Generator for plausible background parameters for synthetic power spectra. """
 
@@ -53,6 +56,7 @@ def gen_bg_def():
         bg_params[1] = np.random.choice(SL_OPTS, p=SL_PROBS)
 
         yield bg_params
+
 
 def gen_osc_def(n_oscs_to_gen):
     """Generator for plausible oscillation parameters for synthetic power spectra.
@@ -82,7 +86,7 @@ def gen_osc_def(n_oscs_to_gen):
 
             cur_cen = np.random.choice(CF_OPTS, p=CF_PROBS)
 
-            while _check_duplicate(cur_cen, [it[0] for it in oscs]):
+            while check_duplicate(cur_cen, [it[0] for it in oscs]):
                 cur_cen = np.random.choice(CF_OPTS, p=CF_PROBS)
 
             cur_amp = np.random.choice(AMP_OPTS, p=AMP_PROBS)
@@ -95,7 +99,45 @@ def gen_osc_def(n_oscs_to_gen):
         yield oscs
 
 
-def _check_duplicate(cur_cen, all_cens, window=2):
+def get_ground_truth(syn_params):
+    """   """
+
+    gauss_truths = []
+    bg_truths = []
+
+    for ind, params in enumerate(syn_params):
+        gauss_truths.append([psd_params.gaussian_params for psd_params in params])
+        bg_truths.append([psd_params.background_params for psd_params in params])
+
+    gauss_truths = np.array(gauss_truths)
+    bg_truths = np.array(bg_truths)
+
+    return gauss_truths, bg_truths
+
+
+def get_fit_data(fgs):
+    """   """
+
+    # Extract data of interest from FOOOF fits
+    osc_fits = []; bg_fits = []; err_fits = []; r2_fits = []; n_oscs = []
+
+    for fg in fgs:
+        osc_fits.append(get_band_peak_group(fg.get_all_data('gaussian_params'), [3, 40], len(fg)))
+        bg_fits.append(fg.get_all_data('background_params'))
+        err_fits.append(fg.get_all_data('error'))
+        r2_fits.append(fg.get_all_data('r_squared'))
+        n_oscs.append([fres.gaussian_params.shape[0] for fres in fg])
+
+    osc_fits = np.array(osc_fits)
+    bg_fits = np.array(bg_fits)
+    err_fits = np.array(err_fits)
+    r2_fits = np.array(r2_fits)
+    n_oscs = np.array(n_oscs)
+
+    return osc_fits, bg_fits, err_fits, r2_fits, n_oscs
+
+
+def check_duplicate(cur_cen, all_cens, window=2):
     """Check if a candidate center frequency has already been chosen.
 
     Parameters
