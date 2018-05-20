@@ -83,7 +83,7 @@ def gen_osc_def(n_oscs_to_gen):
             cur_cen = np.random.choice(CF_OPTS, p=CF_PROBS)
 
             while _check_duplicate(cur_cen, [it[0] for it in oscs]):
-                cur_cen = np.random.choice(CEN_FREQS, p=PROBS)
+                cur_cen = np.random.choice(CF_OPTS, p=CF_PROBS)
 
             cur_amp = np.random.choice(AMP_OPTS, p=AMP_PROBS)
             cur_bw = np.random.choice(BW_OPTS, p=BW_PROBS)
@@ -95,7 +95,7 @@ def gen_osc_def(n_oscs_to_gen):
         yield oscs
 
 
-def _check_duplicate(cur_cen, all_cens, window=1):
+def _check_duplicate(cur_cen, all_cens, window=2):
     """Check if a candidate center frequency has already been chosen.
 
     Parameters
@@ -115,8 +115,8 @@ def _check_duplicate(cur_cen, all_cens, window=1):
 
     if len(all_cens) == 0:
         return False
-    for ch in range(cur_cen-window, cur_cen+window+1):
-        if ch in all_cens:
+    for cen in all_cens:
+        if cur_cen >= cen-window and cur_cen <= cen+window:
             return True
 
     return False
