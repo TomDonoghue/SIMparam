@@ -1,5 +1,8 @@
 """  """
 
+import numpy as np
+from scipy.stats import sem
+
 import matplotlib.pyplot as plt
 
 ###################################################################################################
