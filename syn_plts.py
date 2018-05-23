@@ -1,4 +1,4 @@
-"""  """
+"""Plotting functions for Synthetic FOOOF testing."""
 
 import numpy as np
 from scipy.stats import sem
@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 ###################################################################################################
 
 def plot_errors(dat, title='Data', avg='mean', err='sem'):
+    """Plots errors across distributions of fit data, as central tendency & an error bar."""
 
     n_groups = len(dat)
 
@@ -42,6 +43,7 @@ def plot_errors(dat, title='Data', avg='mean', err='sem'):
     ax.spines['bottom'].set_linewidth(2)
 
 def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None, save_fig=False, save_name=None):
+    """Plots errors across distributions of fit data, as full distributions (as violin plot)."""
 
     fig = plt.figure(figsize=[8, 6])
 
@@ -76,12 +78,13 @@ def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None, save_fig=Fa
     ax.spines['bottom'].set_linewidth(2)
 
     if save_fig:
-        # Set up save name & save out
+
         save_name = save_name + '_syn_error.pdf'
         plt.savefig(save_name, bbox_inches='tight', dpi=300)
 
 
 def plot_n_oscs_bubbles(dat, save_fig=False):
+    """Plot a comparison plot of # of peaks generated, vs. # of peaks fit."""
 
     fig = plt.figure(figsize=[6, 6])
     ax = plt.gca()
@@ -106,6 +109,5 @@ def plot_n_oscs_bubbles(dat, save_fig=False):
 
     if save_fig:
 
-        # Set up save name & save out
         save_name = 'MultiplePeakFits.pdf'
         plt.savefig(save_name, bbox_inches='tight', dpi=300)

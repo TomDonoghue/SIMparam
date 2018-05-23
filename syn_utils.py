@@ -1,4 +1,4 @@
-"""  """
+"""Utility & helper functions for Synthetic FOOOF testing."""
 
 import numpy as np
 
@@ -37,7 +37,7 @@ SL_PROBS = [0.25, 0.25, 0.25, 0.25]
 ###################################################################################################
 
 def print_settings(opts, probs, param):
-    """   """
+    """Print out parameter settings."""
 
     print('Parameter definition for', param, '\n')
     print('\tValue \t Probability')
@@ -46,7 +46,7 @@ def print_settings(opts, probs, param):
 
 
 def gen_bg_def():
-    """Generator for plausible background parameters for synthetic power spectra. """
+    """Generator for plausible background parameters for synthetic power spectra."""
 
     while True:
 
@@ -100,7 +100,7 @@ def gen_osc_def(n_oscs_to_gen):
 
 
 def get_ground_truth(syn_params):
-    """   """
+    """Extract settings used to generated data (ground truth values)."""
 
     gauss_truths = []
     bg_truths = []
@@ -116,7 +116,7 @@ def get_ground_truth(syn_params):
 
 
 def get_fit_data(fgs):
-    """   """
+    """Extract fit results fit to synthetic data."""
 
     # Extract data of interest from FOOOF fits
     osc_fits = []; bg_fits = []; err_fits = []; r2_fits = []; n_oscs = []
@@ -138,16 +138,16 @@ def get_fit_data(fgs):
 
 
 def check_duplicate(cur_cen, all_cens, window=2):
-    """Check if a candidate center frequency has already been chosen.
+    """Check if a candidate center frequency is too close to an existing one.
 
     Parameters
     ----------
     cur_cen : float
-        xx
+        Candidate center frequency to check.
     all_cens : list of float
-        xx
-    window : int, optional
-        xx
+        List of all existing center frequencies.
+    window : int, optional, default: 2
+        Window, in Hz, around existing peak around which new peaks cannot be added.
 
     Returns
     -------
