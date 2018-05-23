@@ -109,7 +109,7 @@ def get_ground_truth(syn_params):
         gauss_truths.append([psd_params.gaussian_params for psd_params in params])
         bg_truths.append([psd_params.background_params for psd_params in params])
 
-    gauss_truths = np.array(gauss_truths)
+    gauss_truths = np.squeeze(np.array(gauss_truths))
     bg_truths = np.array(bg_truths)
 
     return gauss_truths, bg_truths
