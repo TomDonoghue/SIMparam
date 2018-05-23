@@ -79,7 +79,7 @@ def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None, save_fig=Fa
 
     if save_fig:
 
-        save_name = save_name + '_syn_error.pdf'
+        save_name = 'plts/' + save_name + '_syn_error.pdf'
         plt.savefig(save_name, bbox_inches='tight', dpi=300)
 
 
@@ -109,5 +109,5 @@ def plot_n_oscs_bubbles(dat, save_fig=False):
 
     if save_fig:
 
-        save_name = 'MultiplePeakFits.pdf'
+        save_name = 'plts/MultiplePeakFits.pdf'
         plt.savefig(save_name, bbox_inches='tight', dpi=300)

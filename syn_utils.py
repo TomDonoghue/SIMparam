@@ -16,16 +16,10 @@ CF_OPTS = np.load('freqs.npy')
 CF_PROBS = np.load('probs.npy')
 
 # Define the power and bandwidth possibilities and probabilities
-AMP_OPTS = [0.15, 0.20, 0.25, 0.5]
+AMP_OPTS = [0.15, 0.20, 0.25, 0.4]
 AMP_PROBS = [0.25, 0.25, 0.25, 0.25]
-BW_OPTS = [1.5, 2.5, 4]
+BW_OPTS = [1.0, 2.0, 3.0]
 BW_PROBS = [1/3, 1/3, 1/3]
-
-# Define the background parameter options and probabilities
-OFF_OPTS = [0]
-OFF_PROBS = [1]
-SL_OPTS = [0.5, 1, 1.5, 2]
-SL_PROBS = [0.25, 0.25, 0.25, 0.25]
 
 # Define the background parameter options and probabilities
 OFF_OPTS = [0]
