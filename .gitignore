@@ -2,3 +2,7 @@
 /__pycache__/*
 # Ignore checkpoint files
 *.ipynb_checkpoints/*
+# Ignore plots directory
+plts/*
+# Ignore old files
+zOLD/*
