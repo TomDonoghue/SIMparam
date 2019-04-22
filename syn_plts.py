@@ -1,4 +1,4 @@
-"""Plotting functions for Synthetic FOOOF testing."""
+"""Plotting functions for testing FOOOF on simulated data."""
 
 import numpy as np
 from scipy.stats import sem

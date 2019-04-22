@@ -1,4 +1,4 @@
-"""Utility & helper functions for Synthetic FOOOF testing."""
+"""Utility & helper functions for testing FOOOF on simulated data."""
 
 import numpy as np
 
@@ -12,8 +12,8 @@ N_OSCS_OPTS = [0, 1, 2]
 N_OSCS_PROBS = [1/3, 1/3, 1/3]
 
 # Load the distribution of center frequencies to use
-CF_OPTS = np.load('freqs.npy')
-CF_PROBS = np.load('probs.npy')
+CF_OPTS = np.load('data/freqs.npy')
+CF_PROBS = np.load('data/probs.npy')
 
 # Define the power and bandwidth possibilities and probabilities
 PW_OPTS = [0.15, 0.20, 0.25, 0.4]
@@ -37,6 +37,12 @@ def print_settings(opts, probs, param):
     print('\tValue \t Probability')
     for opt, prob in zip(opts, probs):
         print('\t{} \t {:2.1f}%'.format(opt, prob*100))
+
+
+def print_list(lst):
+    """Print out a formatted list."""
+
+    print(['{:1.4f}'.format(item) for item in lst])
 
 
 def gen_ap_def():
@@ -116,10 +122,10 @@ def get_fit_data(fgs):
     osc_fits = []; ap_fits = []; err_fits = []; r2_fits = []; n_oscs = []
 
     for fg in fgs:
-        osc_fits.append(get_band_peak_group(fg.get_all_data('gaussian_params'), [3, 40], len(fg)))
-        ap_fits.append(fg.get_all_data('aperiodic_params'))
-        err_fits.append(fg.get_all_data('error'))
-        r2_fits.append(fg.get_all_data('r_squared'))
+        osc_fits.append(get_band_peak_group(fg.get_params('gaussian_params'), [3, 40], len(fg)))
+        ap_fits.append(fg.get_params('aperiodic_params'))
+        err_fits.append(fg.get_params('error'))
+        r2_fits.append(fg.get_params('r_squared'))
         n_oscs.append([fres.gaussian_params.shape[0] for fres in fg])
 
     osc_fits = np.array(osc_fits)
