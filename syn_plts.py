@@ -36,12 +36,21 @@ def plot_errors(dat, title='Data', avg='mean', err='sem'):
     plot_style(ax)
 
 
-def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None, save_fig=False, save_name=None):
+def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None,
+                       plt_log=False, save_fig=False, save_name=None):
     """Plots errors across distributions of fit data, as full distributions (as violin plot)."""
 
     fig = plt.figure(figsize=[8, 6])
 
-    ax = sns.violinplot(data=dat.T, cut=0, scale='area', linewidth=2.5, color='#0c69ff', saturation=0.75)
+    if plt_log:
+        dat = np.log10(dat)
+
+    ax = sns.violinplot(data=dat.T, cut=0, scale='area', linewidth=2.5,
+                        color='#0c69ff', saturation=0.75)
+
+    # Overly extra dots on the median values, to make them bigger
+    plt.plot([0, 1, 2, 3, 4], np.nanmedian(dat, 1),
+             '.', c='white', ms=20, alpha=1)
 
     # X-ticks & label for noise levels or # of peaks
     if x_axis == 'nlvs':
@@ -51,6 +60,11 @@ def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None, save_fig=Fa
         plt.xticks([0, 1, 2, 3, 4], [0, 1, 2, 3, 4]);
         ax.set_xlabel('Number of Peaks')
 
+    #
+    if plt_log:
+        q1, q2 = plt.yticks()
+        plt.yticks(q1, [a for a in np.power(10, q1)]);
+
     # Titles & Labels
     if title:
         ax.set_title(title)
@@ -58,7 +72,7 @@ def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None, save_fig=Fa
         y_label = 'Error'
     ax.set_ylabel(y_label)
 
-    ## Aesthetics
+    # Aesthetics
     plot_style(ax)
 
     if save_fig:

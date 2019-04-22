@@ -122,7 +122,7 @@ def get_fit_data(fgs):
     osc_fits = []; ap_fits = []; err_fits = []; r2_fits = []; n_oscs = []
 
     for fg in fgs:
-        osc_fits.append(get_band_peak_group(fg.get_params('gaussian_params'), [3, 40], len(fg)))
+        osc_fits.append(get_band_peak_group(fg.get_params('gaussian_params'), [3, 35], len(fg)))
         ap_fits.append(fg.get_params('aperiodic_params'))
         err_fits.append(fg.get_params('error'))
         r2_fits.append(fg.get_params('r_squared'))
