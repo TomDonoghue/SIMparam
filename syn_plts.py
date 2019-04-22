@@ -37,7 +37,7 @@ def plot_errors(dat, title='Data', avg='mean', err='sem'):
 
 
 def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None,
-                       plt_log=False, save_fig=False, save_name=None):
+                       plt_log=False, ylim=None, save_fig=False, save_name=None):
     """Plots errors across distributions of fit data, as full distributions (as violin plot)."""
 
     fig = plt.figure(figsize=[8, 6])
@@ -60,24 +60,24 @@ def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None,
         plt.xticks([0, 1, 2, 3, 4], [0, 1, 2, 3, 4]);
         ax.set_xlabel('Number of Peaks')
 
-    #
     if plt_log:
         q1, q2 = plt.yticks()
         plt.yticks(q1, [a for a in np.power(10, q1)]);
 
-    # Titles & Labels
+    if ylim is not None:
+        plt.ylim(ylim)
+
     if title:
         ax.set_title(title)
     if not y_label:
         y_label = 'Error'
     ax.set_ylabel(y_label)
 
-    # Aesthetics
     plot_style(ax)
 
     if save_fig:
 
-        save_name = 'plts/' + save_name + '_syn_error.pdf'
+        save_name = 'plts/' + save_name + '_syn_error.png'
         plt.savefig(save_name, bbox_inches='tight', dpi=300)
 
 
@@ -100,7 +100,7 @@ def plot_n_oscs_bubbles(dat, save_fig=False):
 
     if save_fig:
 
-        save_name = 'plts/MultiplePeakFits.pdf'
+        save_name = 'plts/MultiplePeakFits.png'
         plt.savefig(save_name, bbox_inches='tight', dpi=300)
 
 
