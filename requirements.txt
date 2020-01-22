@@ -1,0 +1,6 @@
+numpy
+scipy
+matplotlib
+seaborn
+fooof >= 1.0.0
+neurodsp >= 2.0.0
