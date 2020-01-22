@@ -4,28 +4,7 @@ import numpy as np
 
 from fooof.analysis import get_band_peak_group
 
-###################################################################################################
-###################################################################################################
-
-# Define the number of oscillation probabilities
-N_OSCS_OPTS = [0, 1, 2]
-N_OSCS_PROBS = [1/3, 1/3, 1/3]
-
-# Load the distribution of center frequencies to use
-CF_OPTS = np.load('data/freqs.npy')
-CF_PROBS = np.load('data/probs.npy')
-
-# Define the power and bandwidth possibilities and probabilities
-PW_OPTS = [0.15, 0.20, 0.25, 0.4]
-PW_PROBS = [0.25, 0.25, 0.25, 0.25]
-BW_OPTS = [1.0, 2.0, 3.0]
-BW_PROBS = [1/3, 1/3, 1/3]
-
-# Define the background parameter options and probabilities
-OFF_OPTS = [0]
-OFF_PROBS = [1]
-EXP_OPTS = [0.5, 1, 1.5, 2]
-EXP_PROBS = [0.25, 0.25, 0.25, 0.25]
+from settings import *
 
 ###################################################################################################
 ###################################################################################################
@@ -46,7 +25,7 @@ def print_list(lst):
 
 
 def gen_ap_def():
-    """Generator for plausible background parameters for synthetic power spectra."""
+    """Generator for plausible aperiodic parameters for simulated power spectra."""
 
     while True:
 
@@ -59,7 +38,7 @@ def gen_ap_def():
 
 
 def gen_osc_def(n_oscs_to_gen):
-    """Generator for plausible oscillation parameters for synthetic power spectra.
+    """Generator for plausible oscillation parameters for simulated power spectra.
 
     Parameters
     ----------
@@ -116,7 +95,7 @@ def get_ground_truth(sim_params):
 
 
 def get_fit_data(fgs):
-    """Extract fit results fit to synthetic data."""
+    """Extract fit results fit to simulated data."""
 
     # Extract data of interest from FOOOF fits
     osc_fits = []; ap_fits = []; err_fits = []; r2_fits = []; n_oscs = []

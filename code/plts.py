@@ -6,10 +6,12 @@ from scipy.stats import sem
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+from settings import FIGS_PATH, SAVE_EXT
+
 ###################################################################################################
 ###################################################################################################
 
-def plot_errors(dat, title='Data', avg='mean', err='sem'):
+def plot_errors(dat, title='Data', avg='mean', err='sem', save_fig=False, save_name=None):
     """Plots errors across distributions of fit data, as central tendency & an error bar."""
 
     n_groups = len(dat)
@@ -17,13 +19,16 @@ def plot_errors(dat, title='Data', avg='mean', err='sem'):
     fig = plt.figure(figsize=[4, 5])
     ax = plt.gca()
 
-    if avg == 'mean': avg_func = np.nanmean
-    if avg == 'median': avg_func = np.nanmedian
+    if avg == 'mean':
+        avg_func = np.nanmean
+    if avg == 'median':
+        avg_func = np.nanmedian
 
     if err == 'sem': err_func = sem
 
-    plt.errorbar(np.arange(1, n_groups+1), avg_func(dat, 1), yerr=err_func(dat, 1), xerr=None, fmt='.',
-                 markersize=22, capsize=10, elinewidth=2, capthick=2)
+    plt.errorbar(np.arange(1, n_groups+1), avg_func(dat, 1),
+                 xerr=None, yerr=err_func(dat, 1), markersize=22,
+                 fmt='.', capsize=10, elinewidth=2, capthick=2)
 
     ax.set_xlim([0.5, n_groups+0.5])
 
@@ -34,6 +39,11 @@ def plot_errors(dat, title='Data', avg='mean', err='sem'):
 
     # Set plot style
     plot_style(ax)
+
+    if save_fig:
+
+        save_name = FIGS_PATH + save_name + '_error' + SAVE_EXT
+        plt.savefig(save_name, bbox_inches='tight')
 
 
 def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None,
@@ -77,8 +87,8 @@ def plot_errors_violin(dat, title=None, x_axis='nlvs', y_label=None,
 
     if save_fig:
 
-        save_name = 'plts/' + save_name + '_syn_error.png'
-        plt.savefig(save_name, bbox_inches='tight', dpi=300)
+        save_name = FIGS_PATH + save_name + '_sim_error' + SAVE_EXT
+        plt.savefig(save_name, bbox_inches='tight')
 
 
 def plot_n_oscs_bubbles(dat, save_fig=False):
@@ -100,8 +110,8 @@ def plot_n_oscs_bubbles(dat, save_fig=False):
 
     if save_fig:
 
-        save_name = 'plts/MultiplePeakFits.png'
-        plt.savefig(save_name, bbox_inches='tight', dpi=300)
+        save_name = FIGS_PATH + 'MultiplePeakFits' + SAVE_EXT
+        plt.savefig(save_name, bbox_inches='tight')
 
 
 def plot_style(ax):
