@@ -1,8 +1,12 @@
 # Ignore cache files
-/__pycache__/*
+__pycache__/
+
 # Ignore checkpoint files
-*.ipynb_checkpoints/*
-# Ignore plots directory
-plts/*
+.ipynb_checkpoints/
+
+# Ignore some folders
+data/
+figures/
+
 # Ignore old files
 zOLD/*
