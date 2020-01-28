@@ -24,6 +24,21 @@ def print_list(lst):
     print(['{:1.4f}'.format(item) for item in lst])
 
 
+def calc_errors(truths, models, approach='abs'):
+    """Calculate the error of model reconstructions with respect to ground truth.
+    approach: 'abs' or 'sqrd'
+    """
+
+    if approach == 'abs':
+        errors = np.abs(truths - models)
+    elif approach == 'sqrd':
+        errors = (truths - models)**2
+    else:
+        raise ValueError('Approach not understood.')
+
+    return errors
+
+
 def gen_ap_def():
     """Generator for plausible aperiodic parameters for simulated power spectra."""
 
@@ -37,45 +52,59 @@ def gen_ap_def():
         yield ap_params
 
 
-def gen_osc_def(n_oscs_to_gen):
-    """Generator for plausible oscillation parameters for simulated power spectra.
+def gen_ap_kn_def():
+    """Generator for plausible aperiodic parameters, with knees, for simulated power spectra."""
+
+    while True:
+
+        ap_params = [None, None, None]
+
+        ap_params[0] = np.random.choice(OFF_OPTS, p=OFF_PROBS)
+        ap_params[1] = np.random.choice(KNE_OPTS, p=KNE_PROBS)
+        ap_params[2] = np.random.choice(EXP_OPTS, p=EXP_PROBS)
+
+        yield ap_params
+
+
+def gen_peak_def(n_peaks_to_gen):
+    """Generator for plausible peak parameters for simulated power spectra.
 
     Parameters
     ----------
-    n_oscs : int, optional
-        Number of oscillations to generate. If None, picked at random from {0, 1, 2}.
+    n_peaks_to_gen : int, optional
+        Number of peaks to generate. If None, picked at random from {0, 1, 2}.
 
     Yields
     ------
-    oscs : list of list of [float, float, float], or []
-        Oscillation definitions.
+    peaks : list of list of [float, float, float], or []
+        Peak definitions.
     """
 
-    # Generate oscillation definitions
+    # Generate peak definitions
     while True:
 
-        oscs = []
+        peaks = []
 
-        if n_oscs_to_gen is None:
-            n_oscs = np.random.choice(N_OSCS_OPTS, p=N_OSCS_PROBS)
+        if n_peaks_to_gen is None:
+            n_peaks = np.random.choice(N_PEAK_OPTS, p=N_PEAK_PROBS)
         else:
-            n_oscs = n_oscs_to_gen
+            n_peaks = n_peaks_to_gen
 
-        for osc in range(n_oscs):
+        for peak in range(n_peaks):
 
             cur_cen = np.random.choice(CF_OPTS, p=CF_PROBS)
 
-            while check_duplicate(cur_cen, [it[0] for it in oscs]):
+            while check_duplicate(cur_cen, [it[0] for it in peaks]):
                 cur_cen = np.random.choice(CF_OPTS, p=CF_PROBS)
 
             cur_pw = np.random.choice(PW_OPTS, p=PW_PROBS)
             cur_bw = np.random.choice(BW_OPTS, p=BW_PROBS)
 
-            oscs.append([cur_cen, cur_pw, cur_bw])
+            peaks.append([cur_cen, cur_pw, cur_bw])
 
-        oscs = [item for sublist in oscs for item in sublist]
+        peaks = [item for sublist in peaks for item in sublist]
 
-        yield oscs
+        yield peaks
 
 
 def get_ground_truth(sim_params):
@@ -98,22 +127,22 @@ def get_fit_data(fgs):
     """Extract fit results fit to simulated data."""
 
     # Extract data of interest from FOOOF fits
-    osc_fits = []; ap_fits = []; err_fits = []; r2_fits = []; n_oscs = []
+    peak_fits = []; ap_fits = []; err_fits = []; r2_fits = []; n_peaks = []
 
     for fg in fgs:
-        osc_fits.append(get_band_peak_group(fg.get_params('gaussian_params'), [3, 35], len(fg)))
+        peak_fits.append(get_band_peak_group(fg.get_params('gaussian_params'), [3, 35], len(fg)))
         ap_fits.append(fg.get_params('aperiodic_params'))
         err_fits.append(fg.get_params('error'))
         r2_fits.append(fg.get_params('r_squared'))
-        n_oscs.append([fres.gaussian_params.shape[0] for fres in fg])
+        n_peaks.append([fres.gaussian_params.shape[0] for fres in fg])
 
-    osc_fits = np.array(osc_fits)
+    peak_fits = np.array(peak_fits)
     ap_fits = np.array(ap_fits)
     err_fits = np.array(err_fits)
     r2_fits = np.array(r2_fits)
-    n_oscs = np.array(n_oscs)
+    n_peaks = np.array(n_peaks)
 
-    return osc_fits, ap_fits, err_fits, r2_fits, n_oscs
+    return peak_fits, ap_fits, err_fits, r2_fits, n_peaks
 
 
 def check_duplicate(cur_cen, all_cens, window=2):
