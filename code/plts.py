@@ -72,6 +72,9 @@ def plot_errors_violin(data, title=None, x_axis='nlvs', y_label=None,
     if x_axis == 'n_peaks':
         plt.xticks([0, 1, 2, 3, 4], [0, 1, 2, 3, 4]);
         ax.set_xlabel('Number of Peaks')
+    if x_axis == 'osc_strength':
+        plt.xticks([0, 1, 2, 3, 4], [0, 0.25, 0.5, 0.75, 1]);
+        ax.set_xlabel('Oscillation Strength')
 
     if plt_log:
         q1, q2 = plt.yticks()
@@ -94,28 +97,65 @@ def plot_errors_violin(data, title=None, x_axis='nlvs', y_label=None,
         plt.savefig(save_name, bbox_inches='tight')
 
 
-def plot_n_peaks_bubbles(data, save_fig=False):
+def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, save_name=None):
     """Plot a comparison plot of # of peaks generated, vs. # of peaks fit."""
 
     fig = plt.figure(figsize=[6, 6])
     ax = plt.gca()
     for ke, va in data.items():
-        plt.plot(ke[0], ke[1], '.', markersize=va/10, color='blue')
-    plt.xticks(list(range(0, 5)), list(range(0, 5)));
+        plt.plot(ke[0], ke[1], '.', markersize=va/ms_val, color='blue')
+
+    ticks = list(set([val[0] for val in data.keys()]))
+    plt.xticks(ticks, ticks)
+
+    #plt.xticks(list(range(0, 5)), list(range(0, 5)));
 
     # Titles & Labels
     ax.set_title('Multiple Peak Fits')
-    ax.set_xlabel('Number of Simulated Peaks')
     ax.set_ylabel('Number of Fit Peaks')
+    if x_label == 'n_peaks':
+        ax.set_xlabel('Number of Simulated Peaks')
+    elif x_label == 'osc_str':
+        ax.set_xlabel('Oscillation Strength')
 
     # Set the plot style
     plot_style(ax)
 
     if save_fig:
 
-        save_name = FIGS_PATH + 'MultiplePeakFits' + SAVE_EXT
+        save_name = FIGS_PATH + save_name + '_MultiplePeakFits' + SAVE_EXT
         plt.savefig(save_name, bbox_inches='tight')
 
+def plot_harmonics(data, title=None, ax=None):
+    """Create a scatter of harmonic frequency mapping."""
+
+    if not ax:
+        _, ax = plt.subplots(figsize=[2, 4])
+
+    # Create x-axis data, with small jitter for visualization purposes
+    x_data = np.ones_like(data) + np.random.normal(0, 0.025, data.shape)
+
+    # Plot the data
+    ax.scatter(x_data, data, s=36, alpha=0.5)
+
+    # Sort out ticks
+    ax.set_xticks([1])
+    ax.set_yticks([2, 3])
+    ax.set_xticklabels(["Peaks"], {'fontsize' : 12})
+    ax.set_yticklabels(["f-1", "f-2"], {'fontsize' : 12})
+
+    # Set plot limits
+    ax.set_xlim([0.9, 1.1])
+    ax.set_ylim([1, 3.2])
+
+    # Add title, if provided
+    if title:
+        ax.set_title(title)
+
+    plot_style(ax)
+
+
+#### PLOT STYLING ####
 
 def plot_style(ax):
     """Set the aesthetic styling for a plot."""

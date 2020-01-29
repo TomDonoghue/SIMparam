@@ -20,6 +20,10 @@ F_RES = 0.25
 F_RANGE_LONG = [1, 100]
 F_RES_LONG = 0.5
 
+# Time series simulation settings
+N_SECONDS = 10
+FS = 500
+
 # Define the number of peaks and probabilities
 N_PEAK_OPTS = [0, 1, 2]
 N_PEAK_PROBS = [1/3, 1/3, 1/3]
