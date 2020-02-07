@@ -6,10 +6,43 @@ from scipy.stats import sem
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from settings import FIGS_PATH, SAVE_EXT
+from fooof.plts.utils import check_ax
+
+from paths import FIGS_PATH, SAVE_EXT
 
 ###################################################################################################
 ###################################################################################################
+
+def get_ax():
+    """Helper function for sizing plots"""
+
+    return check_ax(None, figsize=(6, 5))
+
+
+def plot_single_data(data, title=None, ylabel='Error', ax=None, save_fig=False, save_name=None):
+    """Plot a single vector of data in 1-dimensional scatter plot."""
+
+    if not ax:
+        _, ax = plt.subplots(figsize=[2, 4])
+
+    ax.plot(np.ones(len(data)), data, '.', markersize=12)
+
+    ax.set_xticks([])
+    ax.set_ylabel(ylabel)
+
+    if ylabel == 'Error':
+        ax.set_ylim([0, max(data)+0.10*max(data)])
+
+    if title:
+        ax.set_title(title)
+
+    plot_style(ax)
+
+    if save_fig:
+
+        save_name = FIGS_PATH + save_name + SAVE_EXT
+        plt.savefig(save_name, bbox_inches='tight')
+
 
 def plot_errors(data, title='Data', avg='mean', err='sem', save_fig=False, save_name=None):
     """Plots errors across distributions of fit data, as central tendency & an error bar."""
@@ -69,12 +102,20 @@ def plot_errors_violin(data, title=None, x_axis='nlvs', y_label=None,
     if x_axis == 'nlvs':
         plt.xticks([0, 1, 2, 3, 4], [0.00, 0.025, 0.050, 0.100, 0.150]);
         ax.set_xlabel('Noise Levels')
-    if x_axis == 'n_peaks':
+    elif x_axis == 'n_peaks':
         plt.xticks([0, 1, 2, 3, 4], [0, 1, 2, 3, 4]);
         ax.set_xlabel('Number of Peaks')
-    if x_axis == 'osc_strength':
+    elif x_axis == 'osc_strength':
         plt.xticks([0, 1, 2, 3, 4], [0, 0.25, 0.5, 0.75, 1]);
         ax.set_xlabel('Oscillation Strength')
+    elif x_axis == 'knees':
+        plt.xticks([0, 1, 2, 3, 4], [0, 1, 10, 25, 100]);
+        ax.set_xlabel('Knee Value')
+    elif x_axis == 'skew':
+        plt.xticks([0, 1, 2, 3, 4], [0, 5, 10, 25, 50]);
+        ax.set_xlabel('Skew Value')
+    else:
+        raise ValueError('x_axis setting not understood.')
 
     if plt_log:
         q1, q2 = plt.yticks()
@@ -102,13 +143,17 @@ def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, sav
 
     fig = plt.figure(figsize=[6, 6])
     ax = plt.gca()
+
+    # Create a mapping between condition label and ordinal label for the plt
+    conds = {val : ind for ind, val in \
+             enumerate(sorted(set([val[0] for val in data.keys()])))}
+
+    # Add data to the plot, plotting as the size of the plotted circle
     for ke, va in data.items():
-        plt.plot(ke[0], ke[1], '.', markersize=va/ms_val, color='blue')
+        plt.plot(conds[ke[0]], ke[1], '.', markersize=va/ms_val, color='blue')
 
-    ticks = list(set([val[0] for val in data.keys()]))
-    plt.xticks(ticks, ticks)
-
-    #plt.xticks(list(range(0, 5)), list(range(0, 5)));
+    # Label with x-axis with labels using condition labels at ordinal locations
+    plt.xticks(list(conds.values()), list(conds.keys()))
 
     # Titles & Labels
     ax.set_title('Multiple Peak Fits')
@@ -117,6 +162,10 @@ def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, sav
         ax.set_xlabel('Number of Simulated Peaks')
     elif x_label == 'osc_str':
         ax.set_xlabel('Oscillation Strength')
+    elif x_label == 'knee':
+        ax.set_xlabel('Knee Value')
+    else:
+        raise ValueError('x_label setting not understood.')
 
     # Set the plot style
     plot_style(ax)
