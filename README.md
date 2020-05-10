@@ -1,18 +1,30 @@
 # SimFOOOF
 
-This repository hosts code for testing [FOOOF]((https://github.com/fooof-tools/fooof)) with simulated data.
+Project repository, part of the `Parameterizing Neural Power Spectra` project,
+testing the power spectrum parameterization algorithm on simulated data.
+
+[![Preprint](https://img.shields.io/badge/preprint-10.1101/299859-informational.svg)](https://doi.org/10.1101/299859)
 
 ## Overview
 
-The analyses in this repository were done for the paper
-[`Parameterizing Neural Power Spectra`](https://doi.org/10.1101/299859).
+This repository tests the [FOOOF]((https://github.com/fooof-tools/fooof) algorithm on simulated data.
 
-This repository contains only simulation analyses. A guide to the paper's analyses, and where
-each is described is available [here](https://github.com/fooof-tools/Paper).
+Simulation tests include:
+- testing performance on reconstructing individual periodic and aperiodic parameters
+- testing performance with global measures such as the number of fit peaks and model reconstruction error
+- testing how sensitive the algorithm is to model assumptions and violations of these assumptions
 
 ## Guide
 
-If you want to go through this analysis, you can work through everything in the `notebooks`.
+You can follow along with this project by looking through everything in the `notebooks`.
+
+## Reference
+
+The analyses in this repository were done as part of the
+[`Parameterizing Neural Power Spectra`](https://doi.org/10.1101/299859) paper.
+
+A full guide to analyses including in this paper is available
+[here](https://github.com/fooof-tools/Paper).
 
 ## Requirements
 
@@ -30,4 +42,5 @@ All required 3rd party packages are described in `requirements.txt`.
 This project repository is set up in the following way:
 
 - `code/` contains custom code for this analysis
-- `notebooks/` is a collection of Jupyter notebooks perform the analsis and create the figures
+- `figures/` contains the figures produced during these analyses
+- `notebooks/` is a collection of Jupyter notebooks that perform the analyses and create figures

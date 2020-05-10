@@ -24,20 +24,20 @@ def print_list(lst):
     print(['{:1.4f}'.format(item) for item in lst])
 
 
-def save_sim_data(data_name, freqs, psds,  sim_params):
+def save_sim_data(file_name, freqs, psds,  sim_params):
     """Save out generated simulations & parameter definitions"""
 
-    np.savez(DATA_PATH + data_name + '.npz', freqs, psds)
-    with open(DATA_PATH + data_name + '.p', 'wb') as f_obj:
+    np.savez(DATA_PATH + file_name + '.npz', freqs, psds)
+    with open(DATA_PATH + file_name + '.p', 'wb') as f_obj:
         pickle.dump(sim_params, f_obj)
 
 
-def load_sim_data(data_name):
+def load_sim_data(file_name):
     """Load previously generated simulations & parameter definitions."""
 
-    temp = np.load(DATA_PATH + data_name + '.npz')
+    temp = np.load(DATA_PATH + file_name + '.npz')
     freqs, psds = temp['arr_0'], temp['arr_1']
-    with open(DATA_PATH + data_name + '.p', 'rb') as f_obj:
+    with open(DATA_PATH + file_name + '.p', 'rb') as f_obj:
         sim_params = pickle.load(f_obj)
 
     return freqs, psds, sim_params

@@ -4,7 +4,7 @@ from collections import Counter
 
 import numpy as np
 
-from fooof.analysis import get_band_peak_group
+from fooof.analysis import get_band_peak_fg
 
 ###################################################################################################
 ###################################################################################################
@@ -27,29 +27,27 @@ def calc_errors(truths, models, approach='abs'):
 def get_ground_truth(sim_params):
     """Extract settings used to generated data (ground truth values)."""
 
-    gauss_truths = []
+    pe_truths = []
     ap_truths = []
 
     for ind, params in enumerate(sim_params):
-        gauss_truths.append([psd_params.gaussian_params for psd_params in params])
+        pe_truths.append([psd_params.periodic_params for psd_params in params])
         ap_truths.append([psd_params.aperiodic_params for psd_params in params])
 
-    gauss_truths = np.squeeze(np.array(gauss_truths))
+    pe_truths = np.squeeze(np.array(pe_truths))
     ap_truths = np.array(ap_truths)
 
-    return gauss_truths, ap_truths
+    return pe_truths, ap_truths
 
 
 def get_fit_data(fgs):
-    """Extract fit results fit to simulated data.
-    This version extracts the single highest peak for each spectrum.
-    """
+    """Extract fit results fit to simulated data."""
 
     # Extract data of interest from FOOOF fits
     peak_fits = []; ap_fits = []; err_fits = []; r2_fits = []; n_peaks = []
 
     for fg in fgs:
-        peak_fits.append(get_band_peak_group(fg.get_params('gaussian_params'), [3, 35], len(fg)))
+        peak_fits.append(get_band_peak_fg(fg, [3, 35], attribute='gaussian_params'))
         ap_fits.append(fg.get_params('aperiodic_params'))
         err_fits.append(fg.get_params('error'))
         r2_fits.append(fg.get_params('r_squared'))

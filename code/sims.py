@@ -3,7 +3,7 @@
 import numpy as np
 from scipy import stats
 
-from fooof.sim.gen import gen_aperiodic, gen_peaks, gen_noise
+from fooof.sim.gen import gen_aperiodic, gen_periodic, gen_noise
 
 from settings import *
 
@@ -186,7 +186,7 @@ def gen_skew_peaks(freqs, params):
 
 def gen_power_vals_fn(freqs, ap_kwargs, pe_kwargs, noise_kwargs,
                       ap_func=gen_aperiodic,
-                      pe_func=gen_peaks,
+                      pe_func=gen_periodic,
                       noise_func=gen_noise):
     """Generate a simulated power spectrum, using the specified functions & parameters.
 
