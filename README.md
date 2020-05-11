@@ -1,13 +1,14 @@
 # SimFOOOF
 
-Project repository, part of the `Parameterizing Neural Power Spectra` project,
-testing the power spectrum parameterization algorithm on simulated data.
+Project repository, part of the `Parameterizing Neural Power Spectra` project. 
+
+This reposisotry tests the power spectrum parameterization algorithm on simulated data.
 
 [![Preprint](https://img.shields.io/badge/preprint-10.1101/299859-informational.svg)](https://doi.org/10.1101/299859)
 
 ## Overview
 
-This repository tests the [FOOOF]((https://github.com/fooof-tools/fooof) algorithm on simulated data.
+This repository tests the [FOOOF](https://github.com/fooof-tools/fooof) algorithm on simulated data.
 
 Simulation tests include:
 - testing performance on reconstructing individual periodic and aperiodic parameters
@@ -23,7 +24,7 @@ You can follow along with this project by looking through everything in the `not
 The analyses in this repository were done as part of the
 [`Parameterizing Neural Power Spectra`](https://doi.org/10.1101/299859) paper.
 
-A full guide to analyses including in this paper is available
+A guide to all the analyses included in this paper is available
 [here](https://github.com/fooof-tools/Paper).
 
 ## Requirements
