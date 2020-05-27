@@ -40,14 +40,14 @@ def get_ground_truth(sim_params):
     return pe_truths, ap_truths
 
 
-def get_fit_data(fgs):
+def get_fit_data(fgs, f_range=[3, 35]):
     """Extract fit results fit to simulated data."""
 
     # Extract data of interest from FOOOF fits
     peak_fits = []; ap_fits = []; err_fits = []; r2_fits = []; n_peaks = []
 
     for fg in fgs:
-        peak_fits.append(get_band_peak_fg(fg, [3, 35], attribute='gaussian_params'))
+        peak_fits.append(get_band_peak_fg(fg, f_range, attribute='gaussian_params'))
         ap_fits.append(fg.get_params('aperiodic_params'))
         err_fits.append(fg.get_params('error'))
         r2_fits.append(fg.get_params('r_squared'))

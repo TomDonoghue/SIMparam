@@ -164,6 +164,8 @@ def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, sav
         ax.set_xlabel('Oscillation Strength')
     elif x_label == 'knee':
         ax.set_xlabel('Knee Value')
+    elif x_label == 'skew':
+        ax.set_xlabel('Peak Skew Value')
     else:
         raise ValueError('x_label setting not understood.')
 

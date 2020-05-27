@@ -33,11 +33,18 @@ FOOOF_SETTINGS_KNEE = FOOOFSettings(
 
 ## POWER SPECTRUM SIMULATIONS
 
+# Set the number of power spectra (per condition)
+N_PSDS = 1000
+
 # Simulation Settings
 F_RANGE = [2, 40]
 F_RES = 0.25
 F_RANGE_LONG = [1, 100]
 F_RES_LONG = 0.5
+
+# Noise levels
+NLV = 0.01
+NLVS = [0.0, 0.025, 0.050, 0.10, 0.15]
 
 # Define the number of peaks options and probabilities
 N_PEAK_OPTS = [0, 1, 2]
