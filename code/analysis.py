@@ -11,7 +11,8 @@ from fooof.analysis import get_band_peak_fg
 
 def calc_errors(truths, models, approach='abs'):
     """Calculate the error of model reconstructions with respect to ground truth.
-    approach: 'abs' or 'sqrd'
+
+    Error metrics available in `approach`: {'abs', 'sqrd'}
     """
 
     if approach == 'abs':

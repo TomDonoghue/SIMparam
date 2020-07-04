@@ -23,34 +23,24 @@ def gen_ap_def():
         yield ap_params
 
 
-def gen_ap_knee_def(knee_val):
-    """Generator for plausible aperiodic parameters, with a knee value, for simulated power spectra."""
+def gen_ap_knee_def(knee_value=None):
+    """Generator for plausible aperiodic parameters, with knees, for simulated power spectra.
 
-    while True:
-
-        ap_params = [None, knee_val, None]
-
-        ap_params[0] = np.random.choice(OFF_OPTS, p=OFF_PROBS)
-        ap_params[2] = np.random.choice(EXP_OPTS, p=EXP_PROBS)
-
-        yield ap_params
-
-
-def gen_ap_kn_def():
-    """Generator for plausible aperiodic parameters, with knees, for simulated power spectra."""
+    If provided, `knee_value` is used for all knee values, otherwise knee is sampled.
+    """
 
     while True:
 
         ap_params = [None, None, None]
 
         ap_params[0] = np.random.choice(OFF_OPTS, p=OFF_PROBS)
-        ap_params[1] = np.random.choice(KNE_OPTS, p=KNE_PROBS)
+        ap_params[1] = knee_value if knee_value else np.random.choice(KNE_OPTS, p=KNE_PROBS)
         ap_params[2] = np.random.choice(EXP_OPTS, p=EXP_PROBS)
 
         yield ap_params
 
 
-def gen_peak_def(n_peaks_to_gen):
+def gen_peak_def(n_peaks_to_gen=None):
     """Generator for plausible peak parameters for simulated power spectra.
 
     Parameters
@@ -141,7 +131,7 @@ def gen_skew_peak(freqs, cen, height, scale, skew):
 
     Notes
     -----
-    Asymetric peaks parameters are organized as [CEN, HEIGHT, SCALE, SKEW]
+    Asymmetric peaks parameters are organized as [CEN, HEIGHT, SCALE, SKEW].
     This is done to match the layout of (symmetric) peak parameters.
     """
 
@@ -172,7 +162,7 @@ def gen_skew_peaks(freqs, params):
 
     Notes
     -----
-    Asymetric peaks parameters are organized as [CEN, HEIGHT, SCALE, SKEW]
+    Asymmetric peaks parameters are organized as [CEN, HEIGHT, SCALE, SKEW].
     This is done to match the layout of (symmetric) peak parameters.
     """
 
@@ -203,8 +193,6 @@ def gen_power_vals_fn(freqs, ap_kwargs, pe_kwargs, noise_kwargs,
     -------
     powers : 1d array
         Simulated values for the power spectrum.
-
-    # Note: possible ToDo item: make group version of the gen_power_vals function.
     """
 
     aperiodic = ap_func(freqs, **ap_kwargs)

@@ -79,50 +79,64 @@ def plot_errors(data, title='Data', avg='mean', err='sem', save_fig=False, save_
         plt.savefig(save_name, bbox_inches='tight')
 
 
-def plot_errors_violin(data, title=None, x_axis='nlvs', y_label=None,
-                       plt_log=False, ylim=None, save_fig=False, save_name=None):
+def plot_errors_violin(data, title=None, x_axis='nlvs', y_label=None, yticks=None,
+                       plt_log=False, ylim=None, ax=None, save_fig=False, save_name=None):
     """Plots errors across distributions of fit data, as full distributions (as violin plot)."""
 
-    fig = plt.figure(figsize=[8, 6])
+    if not ax:
+        fig = plt.figure(figsize=[8, 6])
 
     if plt_log:
-        data = np.log10(data)
 
-        # Remap any infs (coming from value 0) back to value of 0
+        # Log data & remap any infs (coming from value 0) back to value of 0
+        data = np.log10(data)
         data[np.isinf(data)] = 0
 
+    # Create the violinplot
     ax = sns.violinplot(data=data.T, cut=0, scale='area', linewidth=2.5,
-                        color='#0c69ff', saturation=0.75)
+                        color='#0c69ff', saturation=0.75, ax=ax)
 
     # Overlay extra dots on the median values, to make them bigger
-    plt.plot([0, 1, 2, 3, 4], np.nanmedian(data, 1),
-             '.', c='white', ms=20, alpha=1)
+    ax.plot(np.arange(0, data.shape[0]), np.nanmedian(data, 1),
+            '.', c='white', ms=20, alpha=1)
 
     # X-ticks & label for noise levels or # of peaks
+    ax.set_xticks(np.arange(0, data.shape[0]))
     if x_axis == 'nlvs':
-        plt.xticks([0, 1, 2, 3, 4], [0.00, 0.025, 0.050, 0.100, 0.150]);
+        ax.set_xticklabels([0.00, 0.025, 0.050, 0.100, 0.150])
         ax.set_xlabel('Noise Levels')
     elif x_axis == 'n_peaks':
-        plt.xticks([0, 1, 2, 3, 4], [0, 1, 2, 3, 4]);
+        ax.set_xticklabels([0, 1, 2, 3, 4]);
         ax.set_xlabel('Number of Peaks')
     elif x_axis == 'osc_strength':
-        plt.xticks([0, 1, 2, 3, 4], [0, 0.25, 0.5, 0.75, 1]);
+        ax.set_xticklabels([0, 0.25, 0.5, 0.75, 1])
         ax.set_xlabel('Oscillation Strength')
     elif x_axis == 'knees':
-        plt.xticks([0, 1, 2, 3, 4], [0, 1, 10, 25, 100]);
+        ax.set_xticklabels([0, 1, 10, 25, 100])
         ax.set_xlabel('Knee Value')
     elif x_axis == 'skew':
-        plt.xticks([0, 1, 2, 3, 4], [0, 5, 10, 25, 50]);
+        ax.set_xticklabels([0, 5, 10, 25, 50])
         ax.set_xlabel('Skew Value')
+    elif x_axis == 'rdsym':
+        ax.set_xticklabels([0.5, 625, 0.75, 0.875, 1.0])
+        ax.set_xlabel('Oscillation Asymmetry')
+    elif x_axis is None:
+        ax.set_xticks([])
     else:
         raise ValueError('x_axis setting not understood.')
 
     if plt_log:
-        q1, q2 = plt.yticks()
-        plt.yticks(q1, [aa for aa in np.power(10, q1)]);
+
+        # Update the label representation
+        cur_tick_locs = ax.get_yticks()
+        cur_tick_labels = ax.get_yticklabels()
+        ytick_locs = cur_tick_locs if not yticks else np.log10(yticks)
+        ytick_labels = np.power(10, cur_tick_locs) if not yticks else yticks
+        ax.set_yticks(ytick_locs)
+        ax.set_yticklabels(ytick_labels)
 
     if ylim is not None:
-        plt.ylim(ylim)
+        ax.set_ylim(ylim)
 
     if title:
         ax.set_title(title)
@@ -160,12 +174,14 @@ def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, sav
     ax.set_ylabel('Number of Fit Peaks')
     if x_label == 'n_peaks':
         ax.set_xlabel('Number of Simulated Peaks')
-    elif x_label == 'osc_str':
+    elif x_label == 'osc_strength':
         ax.set_xlabel('Oscillation Strength')
     elif x_label == 'knee':
         ax.set_xlabel('Knee Value')
     elif x_label == 'skew':
         ax.set_xlabel('Peak Skew Value')
+    elif x_axis == 'rdsym':
+        ax.set_xlabel('Oscillation Asymmetry')
     else:
         raise ValueError('x_label setting not understood.')
 
@@ -176,6 +192,7 @@ def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, sav
 
         save_name = FIGS_PATH + save_name + '_MultiplePeakFits' + SAVE_EXT
         plt.savefig(save_name, bbox_inches='tight')
+
 
 def plot_harmonics(data, title=None, ax=None):
     """Create a scatter of harmonic frequency mapping."""

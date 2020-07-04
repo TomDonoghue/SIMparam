@@ -24,7 +24,7 @@ def print_list(lst):
     print(['{:1.4f}'.format(item) for item in lst])
 
 
-def save_sim_data(file_name, freqs, psds,  sim_params):
+def save_sim_data(file_name, freqs, psds, sim_params):
     """Save out generated simulations & parameter definitions"""
 
     np.savez(DATA_PATH + file_name + '.npz', freqs, psds)
