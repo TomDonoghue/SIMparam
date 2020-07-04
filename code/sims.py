@@ -23,10 +23,10 @@ def gen_ap_def():
         yield ap_params
 
 
-def gen_ap_knee_def(knee_value=None):
+def gen_ap_knee_def(knee=None):
     """Generator for plausible aperiodic parameters, with knees, for simulated power spectra.
 
-    If provided, `knee_value` is used for all knee values, otherwise knee is sampled.
+    If provided, `knee` is set at a consistent knee value, otherwise knee is sampled.
     """
 
     while True:
@@ -34,7 +34,7 @@ def gen_ap_knee_def(knee_value=None):
         ap_params = [None, None, None]
 
         ap_params[0] = np.random.choice(OFF_OPTS, p=OFF_PROBS)
-        ap_params[1] = knee_value if knee_value else np.random.choice(KNE_OPTS, p=KNE_PROBS)
+        ap_params[1] = knee if knee is not None else np.random.choice(KNE_OPTS, p=KNE_PROBS)
         ap_params[2] = np.random.choice(EXP_OPTS, p=EXP_PROBS)
 
         yield ap_params
@@ -77,6 +77,36 @@ def gen_peak_def(n_peaks_to_gen=None):
             peaks.append([cur_cen, cur_pw, cur_bw])
 
         peaks = [item for sublist in peaks for item in sublist]
+
+        yield peaks
+
+
+def gen_peak_def_high():
+    """Generator for high frequency peaks."""
+
+    high_cf_opts = np.arange(50, 90, 1)
+
+    # Generate peak definitions
+    while True:
+
+        cur_cen = np.random.choice(high_cf_opts)
+        cur_pw = np.random.choice(PW_OPTS, p=PW_PROBS)
+        cur_bw = np.random.choice(BW_OPTS, p=BW_PROBS)
+
+        peak = [cur_cen, cur_pw, cur_bw]
+
+        yield peak
+
+
+def gen_peaks_both():
+    """Generator for combined peak definition of a low and high peak."""
+
+    low_peaks = gen_peak_def(1)
+    high_peaks = gen_peak_def_high()
+
+    while True:
+
+        peaks = [next(low_peaks), next(high_peaks)]
 
         yield peaks
 
