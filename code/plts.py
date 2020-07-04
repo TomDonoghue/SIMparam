@@ -75,7 +75,7 @@ def plot_errors(data, title='Data', avg='mean', err='sem', save_fig=False, save_
 
     if save_fig:
 
-        save_name = FIGS_PATH + save_name + '_error' + SAVE_EXT
+        save_name = FIGS_PATH + save_name + SAVE_EXT
         plt.savefig(save_name, bbox_inches='tight')
 
 
@@ -148,7 +148,7 @@ def plot_errors_violin(data, title=None, x_axis='nlvs', y_label=None, yticks=Non
 
     if save_fig:
 
-        save_name = FIGS_PATH + save_name + '_sim_error' + SAVE_EXT
+        save_name = FIGS_PATH + save_name + SAVE_EXT
         plt.savefig(save_name, bbox_inches='tight')
 
 
@@ -180,7 +180,7 @@ def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, sav
         ax.set_xlabel('Knee Value')
     elif x_label == 'skew':
         ax.set_xlabel('Peak Skew Value')
-    elif x_axis == 'rdsym':
+    elif x_label == 'rdsym':
         ax.set_xlabel('Oscillation Asymmetry')
     else:
         raise ValueError('x_label setting not understood.')
@@ -190,7 +190,7 @@ def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, sav
 
     if save_fig:
 
-        save_name = FIGS_PATH + save_name + '_MultiplePeakFits' + SAVE_EXT
+        save_name = FIGS_PATH + save_name + SAVE_EXT
         plt.savefig(save_name, bbox_inches='tight')
 
 
