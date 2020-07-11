@@ -4,7 +4,9 @@ from collections import Counter
 
 import numpy as np
 
-from fooof.analysis import get_band_peak_fg
+from fooof.analysis.periodic import get_band_peak, get_band_peak_fg
+
+from settings import F_RANGE
 
 ###################################################################################################
 ###################################################################################################
@@ -41,7 +43,7 @@ def get_ground_truth(sim_params):
     return pe_truths, ap_truths
 
 
-def get_fit_data(fgs, f_range=[3, 35]):
+def get_fit_data(fgs, f_range=F_RANGE):
     """Extract fit results fit to simulated data."""
 
     # Extract data of interest from FOOOF fits
@@ -52,7 +54,8 @@ def get_fit_data(fgs, f_range=[3, 35]):
         ap_fits.append(fg.get_params('aperiodic_params'))
         err_fits.append(fg.get_params('error'))
         r2_fits.append(fg.get_params('r_squared'))
-        n_peaks.append([fres.gaussian_params.shape[0] for fres in fg])
+        n_peaks.append([np.atleast_2d(get_band_peak(fres.gaussian_params, f_range, False)).shape[0] \
+            for fres in fg])
 
     peak_fits = np.array(peak_fits)
     ap_fits = np.array(ap_fits)

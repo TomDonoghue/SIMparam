@@ -174,6 +174,8 @@ def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, sav
     ax.set_ylabel('Number of Fit Peaks')
     if x_label == 'n_peaks':
         ax.set_xlabel('Number of Simulated Peaks')
+    elif x_label == 'nlvs':
+        ax.set_xlabel('Noise Levels')
     elif x_label == 'osc_strength':
         ax.set_xlabel('Oscillation Strength')
     elif x_label == 'knee':
