@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from fooof.plts.utils import check_ax
 
 from paths import FIGS_PATH, SAVE_EXT
+from settings import NLVS, N_PEAKS, KNEES, SKEWS, RDSYMS
 
 ###################################################################################################
 ###################################################################################################
@@ -103,22 +104,19 @@ def plot_errors_violin(data, title=None, x_axis='nlvs', y_label=None, yticks=Non
     # X-ticks & label for noise levels or # of peaks
     ax.set_xticks(np.arange(0, data.shape[0]))
     if x_axis == 'nlvs':
-        ax.set_xticklabels([0.00, 0.025, 0.050, 0.100, 0.150])
+        ax.set_xticklabels(NLVS)
         ax.set_xlabel('Noise Levels')
     elif x_axis == 'n_peaks':
-        ax.set_xticklabels([0, 1, 2, 3, 4]);
+        ax.set_xticklabels(N_PEAKS);
         ax.set_xlabel('Number of Peaks')
-    elif x_axis == 'osc_strength':
-        ax.set_xticklabels([0, 0.25, 0.5, 0.75, 1])
-        ax.set_xlabel('Oscillation Strength')
     elif x_axis == 'knees':
-        ax.set_xticklabels([0, 1, 10, 25, 100])
+        ax.set_xticklabels(KNEES)
         ax.set_xlabel('Knee Value')
     elif x_axis == 'skew':
-        ax.set_xticklabels([0, 5, 10, 25, 50])
+        ax.set_xticklabels(SKEWS)
         ax.set_xlabel('Skew Value')
     elif x_axis == 'rdsym':
-        ax.set_xticklabels([0.5, 625, 0.75, 0.875, 1.0])
+        ax.set_xticklabels(RDSYMS)
         ax.set_xlabel('Oscillation Asymmetry')
     elif x_axis is None:
         ax.set_xticks([])
@@ -153,7 +151,10 @@ def plot_errors_violin(data, title=None, x_axis='nlvs', y_label=None, yticks=Non
 
 
 def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, save_name=None):
-    """Plot a comparison plot of # of peaks generated, vs. # of peaks fit."""
+    """Plot a comparison plot of # of peaks generated, vs. # of peaks fit.
+
+    data : Counter object
+    """
 
     fig = plt.figure(figsize=[6, 6])
     ax = plt.gca()
@@ -176,8 +177,6 @@ def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, sav
         ax.set_xlabel('Number of Simulated Peaks')
     elif x_label == 'nlvs':
         ax.set_xlabel('Noise Levels')
-    elif x_label == 'osc_strength':
-        ax.set_xlabel('Oscillation Strength')
     elif x_label == 'knee':
         ax.set_xlabel('Knee Value')
     elif x_label == 'skew':
@@ -186,6 +185,10 @@ def plot_n_peaks_bubbles(data, ms_val=10, x_label='n_peaks', save_fig=False, sav
         ax.set_xlabel('Oscillation Asymmetry')
     else:
         raise ValueError('x_label setting not understood.')
+
+    ticks = list(set([val[1] for val in data.keys()]))
+    ax.set_yticks(ticks)
+    ax.set_yticklabels(ticks)
 
     # Set the plot style
     plot_style(ax)

@@ -54,8 +54,7 @@ def get_fit_data(fgs, f_range=F_RANGE):
         ap_fits.append(fg.get_params('aperiodic_params'))
         err_fits.append(fg.get_params('error'))
         r2_fits.append(fg.get_params('r_squared'))
-        n_peaks.append([np.atleast_2d(get_band_peak(fres.gaussian_params, f_range, False)).shape[0] \
-            for fres in fg])
+        n_peaks.append(fg.n_peaks_)
 
     peak_fits = np.array(peak_fits)
     ap_fits = np.array(ap_fits)
