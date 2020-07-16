@@ -26,8 +26,9 @@ This notebook explores how FOOOF deals with simulated spectra that violate model
 
 ### 05-ModelViolations-PeriodicI
 
-This notebook explores how FOOOF deals with simulated spectra that violate model assumptions, in periodic properties. It examines fitting spectra from time series with asymetric properties, that generate harmonics in the frequency domain.
+This notebook explores how FOOOF deals with simulated spectra that violate model assumptions, in periodic properties. It examines fitting spectra with asymmetric peaks in the frequency domain.
 
 ### 06-ModelViolations-PeriodicII
 
-This notebook explores how FOOOF deals with simulated spectra that violate model assumptions, in periodic properties. It examines fitting spectra with asymmetric peaks in the frequency domain.
+This notebook explores how FOOOF deals with simulated spectra that violate model assumptions, in periodic properties. It examines fitting spectra from time series with asymmetric properties, that generate harmonics in the frequency domain.
+
