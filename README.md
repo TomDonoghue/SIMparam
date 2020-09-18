@@ -1,8 +1,8 @@
 # SimFOOOF
 
-Project repository, part of the `Parameterizing Neural Power Spectra` project. 
+Project repository, part of the `Parameterizing Neural Power Spectra` project.
 
-This reposisotry tests the power spectrum parameterization algorithm on simulated data.
+This repository tests the power spectrum parameterization algorithm on simulated data.
 
 [![Preprint](https://img.shields.io/badge/preprint-10.1101/299859-informational.svg)](https://doi.org/10.1101/299859)
 
@@ -14,6 +14,7 @@ Simulation tests include:
 - testing performance on reconstructing individual periodic and aperiodic parameters
 - testing performance with global measures such as the number of fit peaks and model reconstruction error
 - testing how sensitive the algorithm is to model assumptions and violations of these assumptions
+- testing the algorithm in comparison to other related methods
 
 ## Guide
 
@@ -43,5 +44,4 @@ All required 3rd party packages are described in `requirements.txt`.
 This project repository is set up in the following way:
 
 - `code/` contains custom code for this analysis
-- `figures/` contains the figures produced during these analyses
 - `notebooks/` is a collection of Jupyter notebooks that perform the analyses and create figures

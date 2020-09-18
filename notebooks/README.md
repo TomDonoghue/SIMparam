@@ -14,11 +14,11 @@ This notebook explores how FOOOF performs on simulations with one peak.
 
 ### 02-MultiPeakSims
 
-This notebook explores how FOOOF performs on simulations with multiple peak.
+This notebook explores how FOOOF performs on simulations with multiple peaks.
 
 ### 03-KneeSims
 
-This notebook explores how FOOOF performs on simulations with a knee.
+This notebook explores how FOOOF performs on simulations with a knee (a bend in the aperiodic component).
 
 ### 04-ModelViolations-Aperiodic
 
@@ -32,3 +32,12 @@ This notebook explores how FOOOF deals with simulated spectra that violate model
 
 This notebook explores how FOOOF deals with simulated spectra that violate model assumptions, in periodic properties. It examines fitting spectra from time series with asymmetric properties, that generate harmonics in the frequency domain.
 
+### 07-Comparisons-BOSC
+
+This notebook compares FOOOF to another related method - BOSC.
+It compares measuring aperiodic activity, as done by BOSC, compared to how it is done by FOOOF.
+
+### 08-Comparisons-IRASA
+
+This notebook compares FOOOF to another related method - IRASA.
+It compares measuring aperiodic activity, as done by IRASA, compared to how it is done by FOOOF.
