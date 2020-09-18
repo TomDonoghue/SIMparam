@@ -11,6 +11,12 @@ from settings import F_RANGE
 ###################################################################################################
 ###################################################################################################
 
+def cohens_d(d1, d2):
+    """Calculate cohens-D: (u1 - u2) / SDpooled."""
+
+    return (np.mean(d1) - np.mean(d2)) / (np.sqrt((np.std(d1) ** 2 + np.std(d2) ** 2) / 2))
+
+
 def calc_errors(truths, models, approach='abs'):
     """Calculate the error of model reconstructions with respect to ground truth.
 

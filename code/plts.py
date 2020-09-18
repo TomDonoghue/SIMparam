@@ -80,7 +80,7 @@ def plot_errors(data, title='Data', avg='mean', err='sem', save_fig=False, save_
         plt.savefig(save_name, bbox_inches='tight')
 
 
-def plot_errors_violin(data, title=None, x_axis='nlvs', y_label=None, yticks=None,
+def plot_errors_violin(data, title=None, x_axis='nlvs', x_ticks=[], y_label=None, yticks=None,
                        plt_log=False, ylim=None, ax=None, save_fig=False, save_name=None):
     """Plots errors across distributions of fit data, as full distributions (as violin plot)."""
 
@@ -119,7 +119,8 @@ def plot_errors_violin(data, title=None, x_axis='nlvs', y_label=None, yticks=Non
         ax.set_xticklabels(RDSYMS)
         ax.set_xlabel('Oscillation Asymmetry')
     elif x_axis is None:
-        ax.set_xticks([])
+        ax.set_xticks(range(0, len(x_ticks)))
+        ax.set_xticklabels(x_ticks)
     else:
         raise ValueError('x_axis setting not understood.')
 

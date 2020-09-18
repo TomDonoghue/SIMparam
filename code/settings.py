@@ -12,8 +12,8 @@ from fooof.data import FOOOFSettings
 ## PROJECT SETTINGS
 
 # Set up list of folder names
-FOLDER_NAMES = ['01_one-peak', '02_multi-peak', '03_knee',
-                '04_mv-ap', '05_mv-peI', '06_mv-peII']
+FOLDER_NAMES = ['01_one-peak', '02_multi-peak', '03_knee', '04_mv-ap',
+                '05_mv-peI', '06_mv-peII', '07_comp-bosc', '08_comp-irasa']
 
 ## FOOOF SETTINGS
 

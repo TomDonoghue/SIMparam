@@ -42,7 +42,7 @@ def load_sim_data(file_name, folder):
 
     path_name = pjoin(DATA_PATH, folder, file_name)
 
-    temp = np.load(path_name + '.npz')
+    temp = np.load(path_name + '.npz', allow_pickle=True)
     freqs, psds = temp['arr_0'], temp['arr_1']
     with open(path_name + '.p', 'rb') as f_obj:
         sim_params = pickle.load(f_obj)
